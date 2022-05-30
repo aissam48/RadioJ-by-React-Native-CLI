@@ -10,9 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const Tab = createBottomTabNavigator();
 
 import HomeStack from './HomeStackFolder/HomeStack';
-import PodcastStack from './PodcastStackFolder/PodcastStack';
 import Live from './live';
-import VideosStack from './VideosStackFolder/VideosStack';
 import Programmes from './Programmes';
 
 
@@ -37,31 +35,37 @@ const Tabs = ()=>{
         state.radioState.isPlaying
     ))
 
+    // receive podcast data
+    const podcastUrl = useSelector(state=>(
+        state.podcastUrlFun.data
+    ))
+
+    // play podcast data on player
+
+    React.useEffect(()=>{
+
+        switch(podcastUrl){
+            case "Empty":{
+                break
+            }
+            default:{
+                playIt(podcastUrl)
+                break
+            }
+        }
+
+    },[podcastUrl])
+
+
 
     React.useEffect(()=>{
         switch(data){
             case "Empty":{
-                ToastAndroid.show("Show", ToastAndroid.LONG)
                 break
             }
             default:{
-                async function playIt(){        
-                    const track3 = {
-                        url: JSON.parse(JSON.stringify(data)).url,
-                        title: 'RadioJLive',
-                        artist: 'deadmau5',
-                        }
-                    await TrackPlayer.reset()
-                    await TrackPlayer.add([ track3]);
-                    await TrackPlayer.updateOptions({
-                        capabilities: [
-                            Capability.Play,
-                        ],
-                        color: 99410543
-                    })
-                    await TrackPlayer.play()
-                }
-                playIt()
+                
+                playIt(data)
                 break
             }
         }
@@ -75,12 +79,32 @@ const Tabs = ()=>{
     }, [dur])
    
 
+    // player of any sound url as function
+    async function playIt(data_){        
+        const track3 = {
+            url: JSON.parse(JSON.stringify(data_)).Url,
+            title: JSON.parse(JSON.stringify(data_)).Title,
+            artist: JSON.parse(JSON.stringify(data_)).Podcaster,
+            }
+            // Podcaster
+        await TrackPlayer.reset()
+        await TrackPlayer.add([ track3]);
+        await TrackPlayer.updateOptions({
+            capabilities: [
+                Capability.Play,
+            ],
+            color: 99410543
+        })
+        await TrackPlayer.play()
+    }
+
     return(
 
        
         <View style={{flex:1, flexDirection:"column-reverse"}}>
             <NavigationContainer independent={true}>
                 <Tab.Navigator
+                
                 >
                     <Tab.Screen name="HomeStack" component={HomeStack} options={{headerShown: false, tabBarShowLabel:false, tabBarIcon:({focused, color, size})=>(
                         <View>
@@ -107,21 +131,30 @@ const Tabs = ()=>{
      <View style={{ justifyContent: 'space-between', flexDirection: 'column', backgroundColor: '#1251A0', height: 'auto', marginBottom: 10, marginEnd: 10, marginStart: 10, borderRadius: 20 }}>
          <View style={{ marginTop: 10, justifyContent: 'space-between', flexDirection: 'row', }}>
              <View style={{ flexDirection: 'row', backgroundColor: '#1251A0', height: '100%', borderRadius: 20 }}>
-                 <Image source={require('../assets/search.png')} style={{ borderRadius: 10, height: 50, width: 50, alignSelf: 'center', marginStart: 15 }} />
                    <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
-                      <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>Morning Show</Text>
-                      <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>Aniston</Text>
+                      <Text style={{ fontSize: 14, marginStart: 15,marginBottom:5, color: '#ffffff', fontWeight: 'bold' }}>{JSON.parse(JSON.stringify(podcastUrl)).Title}</Text>
+                      <Text style={{ fontSize: 12, marginStart: 15,marginBottom:5, color: '#ffffff', fontWeight: 'bold' }}>{JSON.parse(JSON.stringify(podcastUrl)).Podcaster}</Text>
                     </View>
 
              </View>
 
                          <TouchableOpacity
                              onPress={async () => {
-                                 playIt()
+                                 switch(playerState){
+                                     case 3:{
+                                         TrackPlayer.play()
+                                         break
+                                     }
+                                     case 2:{
+                                        TrackPlayer.pause()
+                                        break
+                                     }
+                                 }
 
                              }}
                              style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }}>
-                             <Image source= {require('../assets/search.png')}style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }} />
+
+                             <Image source= {playerState == 3 ? require('../assets/play.png') : require('../assets/pauseradio.png')} style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }} />
 
                          </TouchableOpacity>
                      </View>

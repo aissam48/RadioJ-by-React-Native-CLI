@@ -13,6 +13,12 @@ const Home = ({navigation})=>{
     const dispatch = useDispatch()
     const windowWith = Dimensions.get("screen").width
 
+    const listPodcasts = [
+        {Podcaster:"John" ,title: 'The Morning Show', duration: '07:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav' },
+        {Podcaster:"Aniston" ,title: 'The Morning Show', duration: '03:80', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav' },
+        {Podcaster:"Mark" ,title: 'The Morning Show', duration: '01:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther60.wav' },
+    ]
+
     return(
 
         <SafeAreaView style={{flex:1, flexDirection:"column"}}>
@@ -70,6 +76,28 @@ const Home = ({navigation})=>{
 </View>
     </TouchableOpacity>
 
+    <TouchableOpacity
+    onPress={()=>{
+        navigation.navigate("Events")
+    }}
+    >
+    <View style={{alignItems:"center", backgroundColor:"#29C5F6", marginStart:10, marginEnd:10, borderRadius:10, padding:10}}>
+<Image source={require('../../../assets/podcast_white.png')} style={{height:45, width:45}}/>
+<Text style={{color:"#ffffff", fontWeight:"bold"}}>Podcats</Text> 
+</View>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+    onPress={()=>{
+        navigation.navigate("Videos")
+    }}
+    >
+    <View style={{alignItems:"center", backgroundColor:"#29C5F6", marginStart:10, marginEnd:10, borderRadius:10, padding:10}}>
+<Image source={require('../../../assets/youtube_white.png')} style={{height:45, width:45}}/>
+<Text style={{color:"#ffffff", fontWeight:"bold"}}>Vidéos</Text> 
+</View>
+    </TouchableOpacity>
+
 </View>
 
     </ScrollView >
@@ -78,7 +106,13 @@ const Home = ({navigation})=>{
 <View style={{marginTop:15,}}>
     <View style={{flexDirection:"row", justifyContent:"space-between"}}>
         <Text style={{color:"#1260CC", fontWeight:"bold", fontSize:20}}>Videos</Text>
-        <Text style={{color:"#CCCCCC"}}>Voir plus</Text>
+        <TouchableOpacity
+        onPress={()=>{
+            navigation.navigate("Videos")
+        }}
+        >
+            <Text style={{color:"#CCCCCC"}}>Voir plus</Text>
+        </TouchableOpacity>
     </View>
     <View>
 
@@ -103,7 +137,13 @@ const Home = ({navigation})=>{
 <View style={{marginTop:15}}>
     <View style={{flexDirection:"row", justifyContent:"space-between"}}>
         <Text style={{color:"#1260CC", fontWeight:"bold", fontSize:20}}>Acualities</Text>
-        <Text style={{color:"#CCCCCC"}}>Voir plus</Text>
+        <TouchableOpacity
+        onPress={()=>{
+            navigation.navigate("Actuality")
+        }}
+        >
+            <Text style={{color:"#CCCCCC"}}>Voir plus</Text>
+        </TouchableOpacity>
     </View>
     <View>
 
@@ -128,15 +168,21 @@ const Home = ({navigation})=>{
 <View style={{marginTop:15}}>
     <View style={{flexDirection:"row", justifyContent:"space-between"}}>
         <Text style={{color:"#1260CC", fontWeight:"bold", fontSize:20}}>Vos derniers podcasts</Text>
-        <Text style={{color:"#CCCCCC"}}>Voir plus</Text>
+        <TouchableOpacity
+        onPress={()=>{
+            navigation.navigate("Events")
+        }}
+        >
+            <Text style={{color:"#CCCCCC"}}>Voir plus</Text>
+        </TouchableOpacity>
     </View>
     <View style={{marginBottom:150}}>
 
         <FlatList
         nestedScrollEnabled
-        data={videosData}
-        keyExtractor={(item)=>item}
-        renderItem={(item)=>{
+        data={listPodcasts}
+        keyExtractor={item=>item.sound}
+        renderItem={({item})=>{
 
             return(
                 <View style={{borderRadius:20,width:windowWith-40,alignSelf:'center', height:windowWith/4, backgroundColor:"white", margin:5, flexDirection:'row', justifyContent:"space-between"}}>
@@ -144,8 +190,8 @@ const Home = ({navigation})=>{
                     <View style={{flexDirection:"row"}}>
                         <Image source={require('../../../assets/back.png')}/>
                         <View style={{flexDirection:'column', justifyContent:"space-evenly"}}>
-                           <Text style={{color:"#000000"}}>Hello now</Text>
-                            <Text style={{color:"#000000"}}>Hello now</Text>
+                           <Text style={{color:"#000000"}}>{item.title}</Text>
+                            <Text style={{color:"#000000"}}>{item.Podcaster}</Text>
                         </View>
                     </View>
 
@@ -153,7 +199,7 @@ const Home = ({navigation})=>{
                         <TouchableOpacity
                         onPress={()=>{
                             //ToastAndroid.show("heelo", ToastAndroid.LONG)
-                            dispatch({type:'startRadio', data:{url :"http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3"}})
+                            dispatch({type:"playPodcast", data:{Podcaster:item.Podcaster, Url:item.sound, Title:item.title, Duration:item.duration}})
                         }}
                         >
                              <Image source={require('../../../assets/podcasticon.png')} style={{height:40, width:40, alignSelf:"center"}}/>

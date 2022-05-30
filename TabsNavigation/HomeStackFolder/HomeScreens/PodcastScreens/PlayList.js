@@ -13,10 +13,13 @@ export default function PlayList({ navigation }) {
 
     var [choosePodcast, setChoosePodcast] = useState({ titile: '', duration: '' })
     var [numLines, setNumLines] = useState(2)
+    var [podcastList, setPodcastList] = useState([])
+    var [filterPodcast, setFilterPodcast] = useState([])
+    var scrollRef = React.useRef(null)
     const listPodcasts = [
-        { titile: 'The Morning Show', duration: '07:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav' },
-        { titile: 'The Morning Show', duration: '03:80', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav' },
-        { titile: 'The Morning Show', duration: '01:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther60.wav' },
+        {Podcaster:"John" ,titile: 'The Morning Show', duration: '07:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav' },
+        {Podcaster:"Aniston" ,titile: 'The Morning Show', duration: '03:80', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav' },
+        {Podcaster:"Mark" ,titile: 'The Morning Show', duration: '01:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther60.wav' },
     ]
     const listSounds = [
         'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
@@ -25,7 +28,6 @@ export default function PlayList({ navigation }) {
     ]
     var [fetchState, setFetchState]=useState("fetch")
     const screenDeviceWidth = Dimensions.get("screen").width
-
 
     React.useEffect(()=>{
         fetch('https://mywebsite.com/endpoint/', {
@@ -46,14 +48,22 @@ export default function PlayList({ navigation }) {
 
 
     return (
-        <ControllUI value={fetchState}/>
+
+        <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+            <ScrollView nestedScrollEnabled style={{ flex: 1, flexDirection: 'column' }}>
+            <ControllUI value={fetchState}/>
+        </ScrollView>
+        </SafeAreaView>
+        
+         
     );
 
+    
     function ControllUI(value){
         switch(value.value){
             case "fetch":{
-                return(
-                    <SkeletonPlaceholder>
+                
+                <SkeletonPlaceholder>
                         <View style={{flexDirection:"column",  width:screenDeviceWidth}}>
                             <View style={{flexDirection:"row", marginTop:80, width:screenDeviceWidth}}>
                                 <View style={{width: screenDeviceWidth/2-50, marginStart: 20, borderRadius: 20, height: 150}}/>
@@ -82,30 +92,27 @@ export default function PlayList({ navigation }) {
                                 <View style={{flexDirection:"row", width:screenDeviceWidth-50, borderRadius:20, height:60, marginTop:10}}/>
                             </View>
                         </View>
-                    </SkeletonPlaceholder>
-                )
+                </SkeletonPlaceholder>
             }
             case "fetched":{
                 return(
-                    <SafeAreaView style={{ flex: 1, flexDirection: 'column', width: '100%' }}>
-
-<ScrollView nestedScrollEnabled style={{ flex: 1, flexDirection: 'column' }}>
-    <View style={{ flex: 1, flexDirection: 'column', width: '100%' }}>
-
-        <View style={{ marginTop: 20, marginStart: 5 }}>
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.pop()
-                }}
-            >
-                <Image source={require('../../../assets/back.png')} style={{ height: 30, width: 30 }} />
-            </TouchableOpacity>
-        </View>
+                    <SafeAreaView style={{ flex: 1, flexDirection: 'column', }}>
+                        <ScrollView nestedScrollEnabled style={{ flex: 1, flexDirection: 'column' }}>
+                            <View style={{ flex: 1, flexDirection: 'column', width: '100%' }}>
+                                <View style={{ marginTop: 20, marginStart: 5 }}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            navigation.pop()
+                                        }}
+                                    >
+                                        <Image source={require('../../../../assets/back.png')} style={{ height: 40, width: 40 }} />
+                                    </TouchableOpacity>
+                                </View>
 
         <View style={{ flexDirection: 'row', marginTop: 35, width: '100%' }}>
 
             <View style={{ width: '40%', backgroundColor: '#ffffff', marginStart: 20, borderRadius: 20, height: 150 }}>
-                <Image source={require('../../../assets/back.png')} style={{ height: '100%', width: '100%', borderRadius: 10 }} />
+                <Image source={require('../../../../assets/back.png')} style={{ height: '100%', width: '100%', borderRadius: 10 }} />
             </View>
             <View style={{ width: '60%' }}>
                 <Text style={{color:"#000000", marginStart: 15, marginEnd: 20, fontSize: 17, fontWeight: 'bold' }}>Sefarim</Text>
@@ -119,7 +126,7 @@ export default function PlayList({ navigation }) {
         <View style={{ flexDirection: 'row', marginTop: 15, width: '100%' }}>
 
             <View style={{ height: 70, width: 70, backgroundColor: '#ffffff', marginStart: 20, borderRadius: 10 }}>
-                <Image source={require('../../../assets/back.png')} style={{ height: '100%', width: '100%', borderRadius: 10 }} />
+                <Image source={require('../../../../assets/back.png')} style={{ height: '100%', width: '100%', borderRadius: 10 }} />
             </View>
             <View style={{ width: '70%' }}>
                 <Text style={{color:"#000000", marginStart: 15, marginEnd: 20, fontSize: 12, fontWeight: 'bold' }}>Michel Zerbib</Text>
@@ -196,12 +203,12 @@ export default function PlayList({ navigation }) {
                                         count = count + 1
 
                                         var sound = listSounds[count]
-
                                         //dispatch({ type: 'playThis', podcastData: { text: item.sound, nu: count } })
+                                        dispatch({type:"playPodcast", data:{Podcaster:item.Podcaster, Url:item.sound, Title:item.titile, Duration:item.duration}})
                                     }}
                                 >
                                     <View style={{ backgroundColor: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#ffffff' : '#1251A0', height: 40, width: 40, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 100, marginEnd: 15 }}>
-                                        <Image source={choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? require('../../../assets/playblue.png') : require('../../../assets/play.png')} style={{ height: 20, width: 20 }} />
+                                        <Image source={choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? require('../../../../assets/playblue.png') : require('../../../../assets/play.png')} style={{ height: 20, width: 20 }} />
                                     </View>
                                 </TouchableOpacity>
 

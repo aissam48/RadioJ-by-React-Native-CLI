@@ -32,64 +32,9 @@ const Programmes = ()=>{
     }, [])
 
     return(
-        <ControllUI value={fetchState}/> 
-    )
 
 
-    function ControllUI(value){
-        switch(value.value){
-            
-            case "fetch":{
-                return(
-                    <SkeletonPlaceholder>
-                        <View style={{ flexDirection:'column', justifyContent:"flex-start", alignItems:"center"}}>
-
-                            <View style={{flexDirection:"row", marginTop:70, position:"relative", }}>
-                                <View style={{height:45, width:windowWith-50, marginStart:15,marginEnd:15, borderRadius:20}}/>
-                                
-                            </View>
-
-                            <View style={{flexDirection:"row", marginTop:30, position:"relative", marginStart:20, marginEnd:20}}>
-                                <View style={{height:45, width:80, marginStart:15,marginEnd:15, borderRadius:10}}/>
-                                <View style={{height:45, width:80, marginStart:15,marginEnd:15, borderRadius:10}}/>
-                                <View style={{height:45, width:80, marginStart:15,marginEnd:15, borderRadius:10}}/>
-                                <View style={{height:45, width:80, marginStart:15,marginEnd:15, borderRadius:10}}/>
-                            </View>
-
-                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:20}}>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                            </View>
-                            
-                            
-
-                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:10}}>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                            </View>
-
-                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:10}}>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                            </View>
-
-                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:10}}>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
-                            </View>
-                            
-
-                        </View>
-                    </SkeletonPlaceholder>
-                )
-            }
-            case "fetched":{
-                return(
-                    <SafeAreaView style={{flex:1, flexDirection:'column'}}>
+        <SafeAreaView style={{flex:1, flexDirection:'column'}}>
             <View style={{flex:1, flexDirection:'column'}}>
                 <View style={{flexDirection:'row', marginTop:40}}>
                     <Text style={{color:"#1260CC",fontSize:25,fontWeight:'bold', textAlignVertical:'center', alignSelf:'center', position:'absolute', justifyContent:'center', width:'100%', textAlign:'center'}}>Programmes</Text>
@@ -124,6 +69,54 @@ const Programmes = ()=>{
                     }}
                     />
                 </View>
+                <ControllUI value={fetchState}/> 
+
+            </View>
+         </SafeAreaView>
+
+    )
+
+
+    function ControllUI(value){
+        switch(value.value){
+            
+            case "fetch":{
+                return(
+                    <SkeletonPlaceholder>
+                        <View style={{ flexDirection:'column', justifyContent:"flex-start", alignItems:"center"}}>
+
+                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:20}}>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                            </View>
+                            
+                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:10}}>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                            </View>
+
+                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:10}}>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                            </View>
+
+                            <View style={{flexDirection:"row",justifyContent:"space-around", height: windowWith/4+ 20,width:windowWith, position:"relative",marginTop:10}}>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                                <View style={{borderRadius: 10,  height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}></View>
+                            </View>
+                            
+
+                        </View>
+                    </SkeletonPlaceholder>
+                )
+            }
+            case "fetched":{
+                return(
+                  
 
                 <View style={{  marginTop:30, justifyContent:"center", alignSelf:'center' }}>
                     <FlatList
@@ -135,7 +128,6 @@ const Programmes = ()=>{
                         return(
                             <View style={{borderRadius:20, backgroundColor:"#CCCCCC", height:windowWith/4+ 20, margin:5, width:windowWith/3-20}}>
                                 
-
                             </View>
                         )
                         
@@ -143,8 +135,6 @@ const Programmes = ()=>{
                     />
 
                 </View>
-            </View>
-                    </SafeAreaView>
                 )
             }
         }

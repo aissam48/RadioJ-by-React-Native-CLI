@@ -4,11 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { View, Text, Image} from 'react-native'
 
 
-
-
-
 const Journalistes = ()=>{
-
 
     return(
 
